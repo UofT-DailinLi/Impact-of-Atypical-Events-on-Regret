@@ -18,15 +18,19 @@ bibliography: references.bib
 
 # Load libraries
 library(tidyverse)
-library(haven)
+
 library(kableExtra)
-library(ggprism)
+
 library(ggthemes)
 library(patchwork)
+
+
 library(here)
+library(ggplot2)
+library(dplyr)
+library(psych)
+
 # Read in data
-original_data <- read_csv(
-  file = here("inputs/data/osf-past-normality-regret-replication-exp2-data-v2.csv"))
 
 ```
 
@@ -60,7 +64,138 @@ Single-age population counts, among all races from 1969-2019 and by race and His
 
 
 # Results
+```{r echo=FALSE, message=FALSE}
+# Read the data
+fig_2data <-  read_csv(
+  file = here("inputs/data/T0002-10.1080_02699931.2018.1504747.csv"))
+                 
+data_clean <- fig_2data %>%
+ slice(-1) %>% # Remove the first row which contains the headers 'Counts' and '%'
+ rename(Group = `...1`, Regret_Counts = Regret, Regret_Percent = `...3`,
+        Luck_Counts = Luck, Luck_Percent = `...5`)
 
+long_data <- data_clean %>% 
+ pivot_longer(
+   cols = starts_with("Regret_") | starts_with("Luck_"),
+   names_to = c("Type", ".value"),
+   names_sep = "_"
+ )
+
+long_data <- long_data %>%
+ mutate(Percent = as.numeric(as.character(Percent)) / 100)
+
+ggplot(long_data, aes(x = Type, y = Percent, fill = Group)) + 
+ geom_bar(stat = "identity", position = position_dodge(width = 1)) +
+ scale_y_continuous(labels = scales::percent_format()) +
+ scale_fill_manual(values = c("Routine Adams" = "blue", "Exception White" = "red")) +
+ labs(x = NULL, y = "Percentage", fill = "Group", title = "Table 2: Proportions for perceived regret and luck") +
+ theme_minimal()
+
+```
+
+The figure named table 2 is a replication of Figure 2 in the original paper, and it shows the proportions for perceived regret and luck in two Groups, which are Mr. Adams with the circumstance of routine and Mr. White with the circumstance of the exception. According to the table 2, the proportion of perceived regret for the group of Mr. Adams with the circumstance of routine is 19%, which 19 percents of participants in the experiment feels that Mr. Adams was more upset over the accident for the second scenario. In contrast, the proportion of perceived regret for the group of Mr. White with the circumstance of the exception is 81%, which 81 percents of participants in the experiment feels that Mr. White was more upset over the accident for the second scenario. What's more, the proportion of perceived luck for the group of Mr. Adams with the circumstance of routine is 33.3%, which 33.3 percents of participants in the experiment supposes that Mr. Adams was less lucky. Instead, the proportion of perceived luck for the group of Mr. White with the circumstance of the exception is 66.7%, which 66.7 percents of participants in the experiment supposes that Mr. White was less lucky.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+data <-  read_csv(
+  file = here("inputs/data/osf-past-normality-regret-replication-exp2-data-v2.csv"))
+
+
+
+data$Sc3condition1 <- 0
+data$compensationagg1 <- 0
+data$regretagg1 <- 0
+for (i in 1:nrow(data)){
+  if (!is.na(data$Sc3_C1_text[i])){
+    data$Sc3condition1[i] <- 1
+    data$compensationagg1[i] <- data$sc3_c1_compensation[i]
+    data$regretagg1[i] <- data$sc3_c1_regret[i]
+  }
+  else if (!is.na(data$Sc3_C2_text[i])){
+    data$Sc3condition1[i] <- 2
+    data$compensationagg1[i] <- data$sc3_c2_compensation[i]
+    data$regretagg1[i] <- data$sc3_c2_regret[i]
+  }
+  else if (!is.na(data$Sc3_C3_text[i])){
+    data$Sc3condition1[i] <- 2
+    data$compensationagg1[i] <- data$sc3_c3_compensation[i]
+    data$regretagg1[i] <- data$sc3_c3_regret[i]
+  }
+  else {
+    data$Sc3condition1[i] <- NA
+    data$compensationagg1[i] <- NA
+    data$regretagg1[i] <- NA
+  }
+}
+
+#value labels
+data$Sc3conditionl1<-factor(data$Sc3condition1,levels = c(1,2), labels=c("Routine", "Exception"))
+
+
+
+#Adjust Copensation-Scale to original paper (Values from 0 to 10, instead of 1 to 11)
+data$compensationaggrecoded1 = data$compensationagg1-1
+
+#Adjust Regret Scale (Values 1 to 5, indead of 0 to 4)
+data$regretaggrecoded1 = data$regretagg1+1
+
+# Label Variables
+names (data$compensationaggrecoded1) <- c("0", "100,000", "200,000", "300,000", "400,000", "500,000", "600,000", "700,000", "800,000", "900,000", "1,000,000")
+names (data$regretaggrecoded1) <- c("no regret", "weak regret", "medium regret", "strong regret", "very strong regret")
+
+
+
+
+
+data_filtered <- data %>% filter(!is.na(Sc3conditionl1))
+
+# Enhanced compensation plot
+exceptioncombinedcompensationplot <- ggplot(data_filtered, aes(x=Sc3conditionl1, y=compensationaggrecoded1, fill=Sc3conditionl1)) +
+  geom_violin(trim=FALSE, alpha=0.6) + 
+  geom_jitter(shape=16, position=position_jitter(0.1), alpha=0.7, size=0.4) +
+  scale_fill_brewer(palette="Pastel1") + 
+  theme_light(base_size = 10) + 
+ 
+  
+  labs(x="Condition", y="Compensation (in thousands)", title="Compensation Amount by Condition") + theme(
+    axis.title = element_text(size = 10),  # Smaller axis titles
+    axis.text = element_text(size = 10)    # Smaller axis text
+  ) +
+  scale_y_continuous(labels=scales::comma) + 
+  stat_summary(fun.data = mean_se, geom = "errorbar", width = 0.2, color="black") +
+  stat_summary(fun=mean, geom="point", shape=18, size=0.1, color="black")
+
+
+
+
+########
+# Regret
+########
+
+exceptioncombinedregretplot <- ggplot(data_filtered, aes(x=Sc3conditionl1, y=regretaggrecoded1, fill=Sc3conditionl1)) +
+  geom_violin(trim=FALSE, alpha=0.6) + 
+  geom_jitter(shape=16, position=position_jitter(0.1), alpha=0.7, size=0.4) +
+  scale_fill_brewer(palette="Pastel2") + 
+  theme_light(base_size = 10) + 
+  
+  labs(x="Condition", y="Regret Level", title="Regret Level by Condition") + theme(
+    axis.title = element_text(size = 10),  # Smaller axis titles
+    axis.text = element_text(size = 10)    # Smaller axis text
+  ) +
+  
+  scale_y_continuous(breaks=1:5, labels=c("No Regret", "Weak", "Medium", "Strong", "Very Strong")) + 
+  stat_summary(fun.data = mean_se, geom = "errorbar", width = 0.2, color="black") +
+  stat_summary(fun=mean, geom="point", shape=18, size=0.1, color="black")
+
+
+
+
+combined_plot <- exceptioncombinedcompensationplot / exceptioncombinedregretplot + 
+  plot_layout(heights = c(1, 1)) # Equal heights for both plots
+
+# Print the combined plot
+combined_plot
+```
 
 
 # References

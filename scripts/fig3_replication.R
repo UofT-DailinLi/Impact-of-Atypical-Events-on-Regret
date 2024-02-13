@@ -12,30 +12,96 @@
 
 
 library(here)
-library(dplyr)
 library(ggplot2)
+library(dplyr)
+library(psych)
+
+
 
 data <-  read_csv(
   file = here("inputs/data/osf-past-normality-regret-replication-exp2-data-v2.csv"))
+str(data)
 
-# Filter out NA values in the condition before plotting
+
+data$Sc3condition1 <- 0
+data$compensationagg1 <- 0
+data$regretagg1 <- 0
+for (i in 1:nrow(data)){
+  if (!is.na(data$Sc3_C1_text[i])){
+    data$Sc3condition1[i] <- 1
+    data$compensationagg1[i] <- data$sc3_c1_compensation[i]
+    data$regretagg1[i] <- data$sc3_c1_regret[i]
+  }
+  else if (!is.na(data$Sc3_C2_text[i])){
+    data$Sc3condition1[i] <- 2
+    data$compensationagg1[i] <- data$sc3_c2_compensation[i]
+    data$regretagg1[i] <- data$sc3_c2_regret[i]
+  }
+  else if (!is.na(data$Sc3_C3_text[i])){
+    data$Sc3condition1[i] <- 2
+    data$compensationagg1[i] <- data$sc3_c3_compensation[i]
+    data$regretagg1[i] <- data$sc3_c3_regret[i]
+  }
+  else {
+    data$Sc3condition1[i] <- NA
+    data$compensationagg1[i] <- NA
+    data$regretagg1[i] <- NA
+  }
+}
+
+#value labels
+data$Sc3conditionl1<-factor(data$Sc3condition1,levels = c(1,2), labels=c("Routine", "Exception"))
+
+# let's have a look at this
+table(data$Sc3conditionl1)
+
+
+#Adjust Copensation-Scale to original paper (Values from 0 to 10, instead of 1 to 11)
+data$compensationaggrecoded1 = data$compensationagg1-1
+
+#Adjust Regret Scale (Values 1 to 5, indead of 0 to 4)
+data$regretaggrecoded1 = data$regretagg1+1
+
+# Label Variables
+names (data$compensationaggrecoded1) <- c("0", "100,000", "200,000", "300,000", "400,000", "500,000", "600,000", "700,000", "800,000", "900,000", "1,000,000")
+names (data$regretaggrecoded1) <- c("no regret", "weak regret", "medium regret", "strong regret", "very strong regret")
+
+
+
+
+
+
+
+
 data_filtered <- data %>% filter(!is.na(Sc3conditionl1))
 
-exceptioncombinedregretplot <- ggplot(data_filtered, aes(x=Sc3conditionl1, y=regretaggrecoded1, fill=Sc3conditionl1)) + 
-  geom_violin(trim=FALSE, alpha=0.5) + # Set transparency for violins
-  geom_jitter(shape=16, position=position_jitter(height=0.1, width=0.2), alpha=0.7, size=2) + # Adjust the alpha and size for jitter
-  scale_fill_manual(values=c("Routine"="blue", "Exception"="red")) + # Change color scheme
-  theme_minimal(base_size = 14) + # Use a minimal theme as a base and increase base font size
-  theme(legend.position="none", # Remove legend if color distinction is clear
-        axis.text.x = element_text(angle = 45, hjust = 1), # Angle x-axis text for better fit
-        panel.grid.major = element_line(colour="grey80"), # Lighten grid lines
-        panel.grid.minor = element_blank(), # Remove minor grid lines
-        plot.title = element_text(hjust = 0.5)) + # Center the plot title
-  labs(x="Condition", 
-       y="Regret Level", 
-       title="Comparison of Regret Levels between Routine and Exception Conditions") + # Add labels and title
-  stat_summary(fun.data = mean_se, geom = "errorbar", position = position_dodge(width = 0.90), width = 0.2, color="black") + # Error bars in black
-  stat_summary(fun.y=mean, geom="point", shape=18, size=3, color="black") # Mean points in black
+# Enhanced compensation plot
+exceptioncombinedcompensationplot <- ggplot(data_filtered, aes(x=Sc3conditionl1, y=compensationaggrecoded1, fill=Sc3conditionl1)) +
+  geom_violin(trim=FALSE, alpha=0.6) + 
+  geom_jitter(shape=16, position=position_jitter(0.1), alpha=0.7, size=2) +
+  scale_fill_brewer(palette="Pastel1") + 
+  theme_light(base_size = 16) + 
+  labs(x="Condition", y="Compensation (in thousands)", title="Compensation Amount by Condition") +
+  scale_y_continuous(labels=scales::comma) + 
+  stat_summary(fun.data = mean_se, geom = "errorbar", width = 0.2, color="black") +
+  stat_summary(fun.y=mean, geom="point", shape=18, size=3, color="black")
+
+exceptioncombinedcompensationplot
+
+
+########
+# Regret
+########
+
+exceptioncombinedregretplot <- ggplot(data_filtered, aes(x=Sc3conditionl1, y=regretaggrecoded1, fill=Sc3conditionl1)) +
+  geom_violin(trim=FALSE, alpha=0.6) + 
+  geom_jitter(shape=16, position=position_jitter(0.1), alpha=0.7, size=2) +
+  scale_fill_brewer(palette="Pastel2") + 
+  theme_light(base_size = 16) + 
+  labs(x="Condition", y="Regret Level", title="Regret Level by Condition") +
+  scale_y_continuous(breaks=1:5, labels=c("No Regret", "Weak", "Medium", "Strong", "Very Strong")) + 
+  stat_summary(fun.data = mean_se, geom = "errorbar", width = 0.2, color="black") +
+  stat_summary(fun.y=mean, geom="point", shape=18, size=3, color="black")
 
 exceptioncombinedregretplot
 
