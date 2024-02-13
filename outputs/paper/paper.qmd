@@ -49,7 +49,7 @@ We replicate the paper by @kutscher2019impact with replicating and focusing the 
 * Car accident scenario
 * Robbery scenario
 
-The original paper used R [@citeR] for data processing and analysis in its replication package, we use R [@citeR]  as well for all data wrangling and analysis and R packages tidyverse [@tidy] to produce the figures.
+The original paper used R [@citeR] for data processing and analysis in its replication package, we use R [@citeR]  as well for all data wrangling and analysis and R packages tidyverse [@tidy],ggthemes[@ggthemes], patchwork[@patchwork], here[@here], ggplot2[@ggplot2], dplyr[@dplyr], psych[@psych],reshape2[@reshape2] to produce the figures.
 
 
 # Data
