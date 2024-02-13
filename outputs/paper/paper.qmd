@@ -4,15 +4,17 @@ subtitle: "Reproduction of 'The impact of past behaviour normality on regret: re
 author: Dailin(Ben) li
 thanks: "Code and data are available at: https://github.com/UofT-DailinLi/Impact-of-Atypical-Events-on-Regret.git. A replication of various aspects in this paper are available at: https://doi.org/10.1080/02699931.2018.1504747"
 date: "`r format(Sys.time(), '%d %B %Y')`"
-abstract: "Over the past 10 years, US birth rates have been dropping steadily to an all time low of 55.8 per 1,000 women in 2020. Kearney, Levine and Pardue (2022) analyzed this phenomenon by exploring demographic, economic, social and policy factors to little enlightenment of the cause of the decline. However, they did discover a correlation between the decline and the birth cohorts of mothers, and offer the conjecture of shifting priorities as the reasoning. We replicate the results of this study with respect to the demographic and cohort effects, and discuss alternative interpretations of the data considering the impact of the feminist movement and the evolution of technology and media. The results were consistent with the initial study."
+abstract: "This study aims to replicate Kutscher and Feldman’s findings, which examine regret based on the norm theory. According to norm theory, an individual’s activity can be categorized as either typical or atypical， with the latter, on the other hand, eliciting a stronger emotional response. We focused on replicating three specific scenarios: hitchhiking, car accidents, and robberies. Examining how people recalled their behaviour in these specific scenarios helped our perception of the emotion of regret. This replication is consistent with the original study."
 
 editor: visual
 format: pdf
-toc: TRUE
+
+toc: true
+toc_depth: 2
 number-sections: true
 bibliography: references.bib
 ---
-
+\newpage
 ```{r echo=FALSE, message=FALSE}
 
 
@@ -29,7 +31,7 @@ library(here)
 library(ggplot2)
 library(dplyr)
 library(psych)
-
+library(reshape2)
 # Read in data
 
 ```
@@ -54,9 +56,7 @@ The original paper used R [@citeR] for data processing and analysis in its repli
 
 ## Data Source and Methodology
 
-The data on birth rates per 1,000 women ages 15-44 across all races and demographic population subgroups are obtained from the National Vital Statistics Reports for the years 2015, 2019 and 2020 [@2015birth; @2019birth; @2020birth], which they collected from birth certificates registered in all  US states and the District of Colombia. Aggregated data on the number of births for 6 different 5-year cohorts of mothers by their age and birth year is provided by @og, calculated using public birth microdata across the period 1980-1989 from the NBER Natality Database and NCHS microdata from the period 1990-2019 [@nchsR; @nber]. The birth cohorts span the years 1968-1997. The NCHS microdata is restricted use and requires an application to be obtained. We simply used the data that was supplied in the replication packageby @og.
-
-Single-age population counts, among all races from 1969-2019 and by race and Hispanic origin from 1990-2019, is obtained from the CDC SEER database [@nci].
+All of the data for REGRET and COMPENSATION contained 344 observations, and 21 VARIABLES were taken from the data underlying Kutscher and Feldman's study[@kutscher2019impact], which was collected as a questionnaire. The questionnaire recipients read a scenario in which a robbery occurred at a grocery store. In the first scenario (routine behaviour), Mr. Paul visited the store he frequented. In the second scenario (self-produced exception), the main character went to another store because he wanted a change of scenery. In the third scenario (other produced exception), Mr. Paul is forced to patronize another store because the store he frequents is closed for construction, and he runs into a robbery taking place in the store. In the next question, we ran a compensation measure followed by a regret measure. Respondents were asked how much money Mr. Paul should receive in compensation for his loss—scale from 0 to 10: 0$ to 1000000$. The next question was: assume no compensation was given to Mr. Paul. How much regret does he feel over the situation? Scale 1 from no regret to 5, very strong regret.
 
 ## Attributes
 
@@ -64,7 +64,43 @@ Single-age population counts, among all races from 1969-2019 and by race and His
 
 
 # Results
+
+## fig1
+```{r echo=FALSE, message=FALSE, fig.cap="Proportions for perceived regret, injunctive social norms, descriptive social norms, and negative affect", label= "fig-1"}
+fig1_data <- data.frame(
+  Scenario = c("Smith - Routine", "Jones - Exception"),
+  PerceivedRegret = c(7.9, 92.1),
+  InjunctiveSocialNorms = c(4.7, 95.3),
+  DescriptiveSocialNorms = c(90.6, 9.4),
+  NegativeAffect = c(7.3, 92.7)
+)
+
+knitr::opts_chunk$set(fig.pos = 'H')
+
+data_long <- reshape2::melt(fig1_data, id.vars = 'Scenario')
+
+
+p <- ggplot(data_long, aes(x = variable, y = value, fill = Scenario)) +
+  geom_bar(stat = 'identity', position = position_dodge(width = 0.7), width = 0.7) +
+  scale_y_continuous(labels = scales::percent) +
+ 
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        legend.position = 'top')
+
+print(p)
+
+```
+
+@Fig-1 shows the evaluation results of participants in two different scenarios: Mr. Jones, who never uses his car to pick up hitchhikers, and Mr. Smith, who often uses his car to pick up hitchhikers, were also picked up by themselves yesterday. After the car was robbed by the people, it was different in all aspects. In the Perceived Regret assessment, the proportion of regret towards Mr Smith was relatively low (7.9%). In contrast, the regret for Mr. Jones reached 92.1%, which was significantly higher than the former. Similar to regret in Injunctive Social Norms, Mr. Smith and Mr. Jones were at 4.7% and 95.3% respectively. This suggests that most people view Mr. Jones (who never picks up hitchhikers) as more common in society, and therefore feel a greater sense of regret for what happened to him. In addition, another reason is that Mr. Jones encountered extremely low-probability events on rare occasions, which is even more unacceptable. As for Descriptive Social Norms, it is naturally the opposite of the first two. Mr. Smith’s proportion is extremely high, reaching 90.6%, while Mr. Jones’s is only 9.4%. In addition, as the chart shows, a strong sense of regret will bring about Negative Affect. Therefore, the proportion of Negative Affect in Mr. Jones' scene is very high, 92.7%. The proportion in Mr. Smith's scenario was lower, 7.3%. Based on the above results, it can be seen that most participants believe that Mr. Jones is more in line with social rules than Mr. Smith. However, because the two have also experienced small-probability negative events, participants will gain more in Mr. Jones’s scenario. Feelings of regret and experiencing negative emotions.
+ shows the evaluation results of participants in two different scenarios: Mr. Jones, who never uses his car to pick up hitchhikers, and Mr. Smith, who often uses his car to pick up hitchhikers, were also picked up by themselves yesterday. After the car was robbed by the people, it was different in all aspects. In the Perceived Regret assessment, the proportion of regret towards Mr Smith was relatively low (7.9%). In contrast, the regret for Mr. Jones reached 92.1%, which was significantly higher than the former. Similar to regret in Injunctive Social Norms, Mr. Smith and Mr. Jones were at 4.7% and 95.3% respectively. This suggests that most people view Mr. Jones (who never picks up hitchhikers) as more common in society, and therefore feel a greater sense of regret for what happened to him. In addition, another reason is that Mr. Jones encountered extremely low-probability events on rare occasions, which is even more unacceptable. As for Descriptive Social Norms, it is naturally the opposite of the first two. Mr. Smith’s proportion is extremely high, reaching 90.6%, while Mr. Jones’s is only 9.4%. In addition, as the chart shows, a strong sense of regret will bring about Negative Affect. Therefore, the proportion of Negative Affect in Mr. Jones' scene is very high, 92.7%. The proportion in Mr. Smith's scenario was lower, 7.3%. Based on the above results, it can be seen that most participants believe that Mr. Jones is more in line with social rules than Mr. Smith. However, because the two have also experienced small-probability negative events, participants will gain more in Mr. Jones’s scenario. Feelings of regret and experiencing negative emotions.
+
+
+## fig2
+
 ```{r echo=FALSE, message=FALSE, fig.cap="Proportions for perceived regret and luck", label= "fig-2"}
+
+knitr::opts_chunk$set(fig.pos = 'H')
 # Read the data
 fig_2data <-  read_csv(
   file = here("inputs/data/T0002-10.1080_02699931.2018.1504747.csv"))
@@ -95,7 +131,13 @@ ggplot(long_data, aes(x = Type, y = Percent, fill = Group)) +
 
 The figure named @fig-2 is a replication of Figure 2 in the original paper, and it shows the proportions for perceived regret and luck in two Groups, which are Mr. Adams with the circumstance of routine and Mr. White with the circumstance of the exception. According to the table 2, the proportion of perceived regret for the group of Mr. Adams with the circumstance of routine is 19%, which 19 percents of participants in the experiment feels that Mr. Adams was more upset over the accident for the second scenario. In contrast, the proportion of perceived regret for the group of Mr. White with the circumstance of the exception is 81%, which 81 percents of participants in the experiment feels that Mr. White was more upset over the accident for the second scenario. What's more, the proportion of perceived luck for the group of Mr. Adams with the circumstance of routine is 33.3%, which 33.3 percents of participants in the experiment supposes that Mr. Adams was less lucky. Instead, the proportion of perceived luck for the group of Mr. White with the circumstance of the exception is 66.7%, which 66.7 percents of participants in the experiment supposes that Mr. White was less lucky.
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+
+## fig3
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.cap=" Victim compensation and regret with exception conditions combined", label= "fig-3"}
+
+knitr::opts_chunk$set(fig.pos = 'H')
 
 data <-  read_csv(
   file = here("inputs/data/osf-past-normality-regret-replication-exp2-data-v2.csv"))
