@@ -64,7 +64,7 @@ Single-age population counts, among all races from 1969-2019 and by race and His
 
 
 # Results
-```{r echo=FALSE, message=FALSE}
+```{r echo=FALSE, message=FALSE, fig.cap="Proportions for perceived regret and luck", label= "fig-2"}
 # Read the data
 fig_2data <-  read_csv(
   file = here("inputs/data/T0002-10.1080_02699931.2018.1504747.csv"))
@@ -88,12 +88,12 @@ ggplot(long_data, aes(x = Type, y = Percent, fill = Group)) +
  geom_bar(stat = "identity", position = position_dodge(width = 1)) +
  scale_y_continuous(labels = scales::percent_format()) +
  scale_fill_manual(values = c("Routine Adams" = "blue", "Exception White" = "red")) +
- labs(x = NULL, y = "Percentage", fill = "Group", title = "Table 2: Proportions for perceived regret and luck") +
+ labs(x = NULL, y = "Percentage", fill = "Group") +
  theme_minimal()
 
 ```
 
-The figure named table 2 is a replication of Figure 2 in the original paper, and it shows the proportions for perceived regret and luck in two Groups, which are Mr. Adams with the circumstance of routine and Mr. White with the circumstance of the exception. According to the table 2, the proportion of perceived regret for the group of Mr. Adams with the circumstance of routine is 19%, which 19 percents of participants in the experiment feels that Mr. Adams was more upset over the accident for the second scenario. In contrast, the proportion of perceived regret for the group of Mr. White with the circumstance of the exception is 81%, which 81 percents of participants in the experiment feels that Mr. White was more upset over the accident for the second scenario. What's more, the proportion of perceived luck for the group of Mr. Adams with the circumstance of routine is 33.3%, which 33.3 percents of participants in the experiment supposes that Mr. Adams was less lucky. Instead, the proportion of perceived luck for the group of Mr. White with the circumstance of the exception is 66.7%, which 66.7 percents of participants in the experiment supposes that Mr. White was less lucky.
+The figure named @fig-2 is a replication of Figure 2 in the original paper, and it shows the proportions for perceived regret and luck in two Groups, which are Mr. Adams with the circumstance of routine and Mr. White with the circumstance of the exception. According to the table 2, the proportion of perceived regret for the group of Mr. Adams with the circumstance of routine is 19%, which 19 percents of participants in the experiment feels that Mr. Adams was more upset over the accident for the second scenario. In contrast, the proportion of perceived regret for the group of Mr. White with the circumstance of the exception is 81%, which 81 percents of participants in the experiment feels that Mr. White was more upset over the accident for the second scenario. What's more, the proportion of perceived luck for the group of Mr. Adams with the circumstance of routine is 33.3%, which 33.3 percents of participants in the experiment supposes that Mr. Adams was less lucky. Instead, the proportion of perceived luck for the group of Mr. White with the circumstance of the exception is 66.7%, which 66.7 percents of participants in the experiment supposes that Mr. White was less lucky.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
