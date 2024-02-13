@@ -1,0 +1,67 @@
+---
+title: "Exploring the Impact of Atypical Events on Regret: Analysis Through Hitchhiker, Car Accident, and Robbery Scenarios"
+subtitle: "Reproduction of 'The impact of past behaviour normality on regret: replication and extension of three experiments of the exceptionality effect' (Lucas Kutscher & Gilad Feldman, 2018)"
+author: Dailin(Ben) li
+thanks: "Code and data are available at: https://github.com/UofT-DailinLi/Impact-of-Atypical-Events-on-Regret.git. A replication of various aspects in this paper are available at: https://doi.org/10.1080/02699931.2018.1504747"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+abstract: "Over the past 10 years, US birth rates have been dropping steadily to an all time low of 55.8 per 1,000 women in 2020. Kearney, Levine and Pardue (2022) analyzed this phenomenon by exploring demographic, economic, social and policy factors to little enlightenment of the cause of the decline. However, they did discover a correlation between the decline and the birth cohorts of mothers, and offer the conjecture of shifting priorities as the reasoning. We replicate the results of this study with respect to the demographic and cohort effects, and discuss alternative interpretations of the data considering the impact of the feminist movement and the evolution of technology and media. The results were consistent with the initial study."
+
+editor: visual
+format: pdf
+toc: TRUE
+number-sections: true
+bibliography: references.bib
+---
+
+```{r echo=FALSE, message=FALSE}
+
+
+# Load libraries
+library(tidyverse)
+library(haven)
+library(kableExtra)
+library(ggprism)
+library(ggthemes)
+library(patchwork)
+library(here)
+# Read in data
+original_data <- read_csv(
+  file = here("inputs/data/osf-past-normality-regret-replication-exp2-data-v2.csv"))
+
+```
+
+# Introduction
+
+<!-- Background / Broader Context -->
+Regret is an uncomfortable state of mind that encompasses feelings of sorrow and distress over unfortunate events, perceived personal failures, losses, violations, deficiencies, or errors[@gilovich1995experience]. It associates to many things in our daily life. Matters of regret can include both acts done and opportunities missed; they may extend from intentional actions to those that are involuntary or happenstance; they could be tangible actions carried out or purely thoughts, whether self-initiated or by others; and they might constitute ethical or legal violations, or be actions that are neutral in terms of morality and law [@gilovich1995experience].
+
+From the original paper [@kutscher2019impact], norm theory [@kahneman1986norm] posits that people cognitively categorize events as either typical or atypical, with atypical events eliciting more potent responses because typical occurrences are more readily recalled, thus simplifying the generation of counter factual scenarios for atypical events. The greater ease of conjuring these hypothetical alternatives for atypical outcomes amplifies the sensation of regret when the results are unfavorable. For instance, people's habitual behaviors are more memorable and mentally prominent, which facilitates the construction of customary 'what if' scenarios in contrast to an anomaly. Consequently, departures from one's usual behavior are perceived as more changeable and evoke stronger feelings of regret.
+
+We replicate the paper by @kutscher2019impact with replicating and focusing the three scenarios of the experiment:
+
+* Hitchhiker-scenario
+* Car accident scenario
+* Robbery scenario
+
+The original paper used R [@citeR] for data processing and analysis in its replication package, we use R [@citeR]  as well for all data wrangling and analysis and R packages tidyverse [@tidy] to produce the figures.
+
+
+# Data
+
+## Data Source and Methodology
+
+The data on birth rates per 1,000 women ages 15-44 across all races and demographic population subgroups are obtained from the National Vital Statistics Reports for the years 2015, 2019 and 2020 [@2015birth; @2019birth; @2020birth], which they collected from birth certificates registered in all  US states and the District of Colombia. Aggregated data on the number of births for 6 different 5-year cohorts of mothers by their age and birth year is provided by @og, calculated using public birth microdata across the period 1980-1989 from the NBER Natality Database and NCHS microdata from the period 1990-2019 [@nchsR; @nber]. The birth cohorts span the years 1968-1997. The NCHS microdata is restricted use and requires an application to be obtained. We simply used the data that was supplied in the replication packageby @og.
+
+Single-age population counts, among all races from 1969-2019 and by race and Hispanic origin from 1990-2019, is obtained from the CDC SEER database [@nci].
+
+## Attributes
+
+
+
+
+# Results
+
+
+
+# References
+
