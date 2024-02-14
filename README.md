@@ -20,4 +20,4 @@ This study, "Exploring the Impact of Atypical Events on Regret: Analysis Through
 
 
 **Statement on LLM usage:
-Use ChatGPT to start this report, finding interesting dataset in opendatatoronto.Detailed chat can be found in input/LLM folder. 
+Use ChatGPT to help understand the original code and replicate graphs. The chat history can be found in LLM usage file. 
