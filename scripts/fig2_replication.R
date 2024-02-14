@@ -1,8 +1,8 @@
 #### Preamble ####
 # Purpose: Figure 2 replication
-# Author: Dailin Li
+# Author: Qisheng Liang
 # Date: 10 February 2024
-# Contact: dailin.li@mail.utoronto.ca
+# Contact: frankie.liang@mail.utoronto.ca
 
 ## Data Sources:
 

@@ -24,19 +24,19 @@ data <- data.frame(
 )
 
 
-data_long <- reshape2::melt(data, id.vars = 'Scenario')
+data_long <- melt(data, id.vars = 'Scenario')
 
 
 p <- ggplot(data_long, aes(x = variable, y = value, fill = Scenario)) +
   geom_bar(stat = 'identity', position = position_dodge(width = 0.7), width = 0.7) +
-  scale_y_continuous(labels = scales::percent) +
-  labs(x = 'Proportions for perceived regret, injunctive social norms, descriptive social norms, and negative affect',
-       y = '',
-       title = '',
-       fill = 'Scenario') +
+  scale_y_continuous(labels = scales::percent_format(scale = 1), limits = c(0, 100)) +
+  labs(x = '', y = 'Percentage (%)', fill = 'Scenario') +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
         legend.position = 'top')
 
+
 print(p)
+
+
 

@@ -1,7 +1,7 @@
 ---
 title: "Exploring the Impact of Atypical Events on Regret: Analysis Through Hitchhiker, Car Accident, and Robbery Scenarios"
 subtitle: "Reproduction of 'The impact of past behaviour normality on regret: replication and extension of three experiments of the exceptionality effect' (Lucas Kutscher & Gilad Feldman, 2018)"
-author: Dailin(Ben) li
+author: Dailin(Ben) li, Qisheng Liang, Xutao Chen
 thanks: "Code and data are available at: https://github.com/UofT-DailinLi/Impact-of-Atypical-Events-on-Regret.git. A replication of various aspects in this paper are available at: https://doi.org/10.1080/02699931.2018.1504747"
 date: "`r format(Sys.time(), '%d %B %Y')`"
 abstract: "This study aims to replicate Kutscher and Feldman’s findings, which examine regret based on the norm theory. According to norm theory, an individual’s activity can be categorized as either typical or atypical， with the latter, on the other hand, eliciting a stronger emotional response. We focused on replicating three specific scenarios: hitchhiking, car accidents, and robberies. Examining how people recalled their behaviour in these specific scenarios helped our perception of the emotion of regret. This replication is consistent with the original study."
@@ -14,7 +14,9 @@ toc_depth: 2
 number-sections: true
 bibliography: references.bib
 ---
+
 \newpage
+
 ```{r echo=FALSE, message=FALSE}
 
 
@@ -39,33 +41,29 @@ library(reshape2)
 # Introduction
 
 <!-- Background / Broader Context -->
+
 Regret is an uncomfortable state of mind that encompasses feelings of sorrow and distress over unfortunate events, perceived personal failures, losses, violations, deficiencies, or errors[@gilovich1995experience]. It associates to many things in our daily life. Matters of regret can include both acts done and opportunities missed; they may extend from intentional actions to those that are involuntary or happenstance; they could be tangible actions carried out or purely thoughts, whether self-initiated or by others; and they might constitute ethical or legal violations, or be actions that are neutral in terms of morality and law [@gilovich1995experience].
 
 From the original paper [@kutscher2019impact], norm theory [@kahneman1986norm] posits that people cognitively categorize events as either typical or atypical, with atypical events eliciting more potent responses because typical occurrences are more readily recalled, thus simplifying the generation of counter factual scenarios for atypical events. The greater ease of conjuring these hypothetical alternatives for atypical outcomes amplifies the sensation of regret when the results are unfavorable. For instance, people's habitual behaviors are more memorable and mentally prominent, which facilitates the construction of customary 'what if' scenarios in contrast to an anomaly. Consequently, departures from one's usual behavior are perceived as more changeable and evoke stronger feelings of regret.
 
 We replicate the paper by @kutscher2019impact with replicating and focusing the three scenarios of the experiment:
 
-* Hitchhiker-scenario
-* Car accident scenario
-* Robbery scenario
+-   Hitchhiker-scenario
+-   Car accident scenario
+-   Robbery scenario
 
-The original paper used R [@citeR] for data processing and analysis in its replication package, we use R [@citeR]  as well for all data wrangling and analysis and R packages tidyverse [@tidy],ggthemes[@ggthemes], patchwork[@patchwork], here[@here], ggplot2[@ggplot2], dplyr[@dplyr], psych[@psych],reshape2[@reshape2] to produce the figures.
-
+The original paper used R [@citeR] for data processing and analysis in its replication package, we use R [@citeR] as well for all data wrangling and analysis and R packages tidyverse [@tidy],ggthemes[@ggthemes], patchwork[@patchwork], here[@here], ggplot2[@ggplot2], dplyr[@dplyr], psych[@psych],reshape2[@reshape2] to produce the figures.
 
 # Data
 
 ## Data Source and Methodology
 
-All of the data for REGRET and COMPENSATION contained 344 observations, and 21 VARIABLES were taken from the data underlying Kutscher and Feldman's study[@kutscher2019impact], which was collected as a questionnaire. The questionnaire recipients read a scenario in which a robbery occurred at a grocery store. In the first scenario (routine behaviour), Mr. Paul visited the store he frequented. In the second scenario (self-produced exception), the main character went to another store because he wanted a change of scenery. In the third scenario (other produced exception), Mr. Paul is forced to patronize another store because the store he frequents is closed for construction, and he runs into a robbery taking place in the store. In the next question, we ran a compensation measure followed by a regret measure. Respondents were asked how much money Mr. Paul should receive in compensation for his loss—scale from 0 to 10: 0$ to 1000000$. The next question was: assume no compensation was given to Mr. Paul. How much regret does he feel over the situation? Scale 1 from no regret to 5, very strong regret.
-
-## Attributes
-
-
-
+All of the data for REGRET and COMPENSATION contained 344 observations, and 21 VARIABLES were taken from the data underlying Kutscher and Feldman's study[@kutscher2019impact], which was collected as a questionnaire. The questionnaire recipients read a scenario in which a robbery occurred at a grocery store. In the first scenario (routine behaviour), Mr. Paul visited the store he frequented. In the second scenario (self-produced exception), the main character went to another store because he wanted a change of scenery. In the third scenario (other produced exception), Mr. Paul is forced to patronize another store because the store he frequents is closed for construction, and he runs into a robbery taking place in the store. In the next question, we ran a compensation measure followed by a regret measure. Respondents were asked how much money Mr. Paul should receive in compensation for his loss—scale from 0 to 10: 0\$ to 1000000\$. The next question was: assume no compensation was given to Mr. Paul. How much regret does he feel over the situation? Scale 1 from no regret to 5, very strong regret.
 
 # Results
 
 ## fig1
+
 ```{r echo=FALSE, message=FALSE, fig.cap="Proportions for perceived regret, injunctive social norms, descriptive social norms, and negative affect", label= "fig-1"}
 fig1_data <- data.frame(
   Scenario = c("Smith - Routine", "Jones - Exception"),
@@ -82,19 +80,18 @@ data_long <- reshape2::melt(fig1_data, id.vars = 'Scenario')
 
 p <- ggplot(data_long, aes(x = variable, y = value, fill = Scenario)) +
   geom_bar(stat = 'identity', position = position_dodge(width = 0.7), width = 0.7) +
-  scale_y_continuous(labels = scales::percent) +
- 
+  scale_y_continuous(labels = scales::percent_format(scale = 1), limits = c(0, 100)) +
+  labs(x = '', y = 'Percentage (%)', fill = 'Scenario') +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
         legend.position = 'top')
+
 
 print(p)
 
 ```
 
-@Fig-1 shows the evaluation results of participants in two different scenarios: Mr. Jones, who never uses his car to pick up hitchhikers, and Mr. Smith, who often uses his car to pick up hitchhikers, were also picked up by themselves yesterday. After the car was robbed by the people, it was different in all aspects. In the Perceived Regret assessment, the proportion of regret towards Mr Smith was relatively low (7.9%). In contrast, the regret for Mr. Jones reached 92.1%, which was significantly higher than the former. Similar to regret in Injunctive Social Norms, Mr. Smith and Mr. Jones were at 4.7% and 95.3% respectively. This suggests that most people view Mr. Jones (who never picks up hitchhikers) as more common in society, and therefore feel a greater sense of regret for what happened to him. In addition, another reason is that Mr. Jones encountered extremely low-probability events on rare occasions, which is even more unacceptable. As for Descriptive Social Norms, it is naturally the opposite of the first two. Mr. Smith’s proportion is extremely high, reaching 90.6%, while Mr. Jones’s is only 9.4%. In addition, as the chart shows, a strong sense of regret will bring about Negative Affect. Therefore, the proportion of Negative Affect in Mr. Jones' scene is very high, 92.7%. The proportion in Mr. Smith's scenario was lower, 7.3%. Based on the above results, it can be seen that most participants believe that Mr. Jones is more in line with social rules than Mr. Smith. However, because the two have also experienced small-probability negative events, participants will gain more in Mr. Jones’s scenario. Feelings of regret and experiencing negative emotions.
- shows the evaluation results of participants in two different scenarios: Mr. Jones, who never uses his car to pick up hitchhikers, and Mr. Smith, who often uses his car to pick up hitchhikers, were also picked up by themselves yesterday. After the car was robbed by the people, it was different in all aspects. In the Perceived Regret assessment, the proportion of regret towards Mr Smith was relatively low (7.9%). In contrast, the regret for Mr. Jones reached 92.1%, which was significantly higher than the former. Similar to regret in Injunctive Social Norms, Mr. Smith and Mr. Jones were at 4.7% and 95.3% respectively. This suggests that most people view Mr. Jones (who never picks up hitchhikers) as more common in society, and therefore feel a greater sense of regret for what happened to him. In addition, another reason is that Mr. Jones encountered extremely low-probability events on rare occasions, which is even more unacceptable. As for Descriptive Social Norms, it is naturally the opposite of the first two. Mr. Smith’s proportion is extremely high, reaching 90.6%, while Mr. Jones’s is only 9.4%. In addition, as the chart shows, a strong sense of regret will bring about Negative Affect. Therefore, the proportion of Negative Affect in Mr. Jones' scene is very high, 92.7%. The proportion in Mr. Smith's scenario was lower, 7.3%. Based on the above results, it can be seen that most participants believe that Mr. Jones is more in line with social rules than Mr. Smith. However, because the two have also experienced small-probability negative events, participants will gain more in Mr. Jones’s scenario. Feelings of regret and experiencing negative emotions.
-
+@Fig-1 shows the evaluation results of participants in two different scenarios: Mr. Jones, who never uses his car to pick up hitchhikers, and Mr. Smith, who often uses his car to pick up hitchhikers, were also picked up by themselves yesterday. After the car was robbed by the people, it was different in all aspects. In the Perceived Regret assessment, the proportion of regret towards Mr Smith was relatively low (7.9%). In contrast, the regret for Mr. Jones reached 92.1%, which was significantly higher than the former. Similar to regret in Injunctive Social Norms, Mr. Smith and Mr. Jones were at 4.7% and 95.3% respectively. This suggests that most people view Mr. Jones (who never picks up hitchhikers) as more common in society, and therefore feel a greater sense of regret for what happened to him. In addition, another reason is that Mr. Jones encountered extremely low-probability events on rare occasions, which is even more unacceptable. As for Descriptive Social Norms, it is naturally the opposite of the first two. Mr. Smith’s proportion is extremely high, reaching 90.6%, while Mr. Jones’s is only 9.4%. In addition, as the chart shows, a strong sense of regret will bring about Negative Affect. Therefore, the proportion of Negative Affect in Mr. Jones' scene is very high, 92.7%. The proportion in Mr. Smith's scenario was lower, 7.3%. Based on the above results, it can be seen that most participants believe that Mr. Jones is more in line with social rules than Mr. Smith. However, because the two have also experienced small-probability negative events, participants will gain more in Mr. Jones’s scenario. Feelings of regret and experiencing negative emotions. shows the evaluation results of participants in two different scenarios: Mr. Jones, who never uses his car to pick up hitchhikers, and Mr. Smith, who often uses his car to pick up hitchhikers, were also picked up by themselves yesterday. After the car was robbed by the people, it was different in all aspects. In the Perceived Regret assessment, the proportion of regret towards Mr Smith was relatively low (7.9%). In contrast, the regret for Mr. Jones reached 92.1%, which was significantly higher than the former. Similar to regret in Injunctive Social Norms, Mr. Smith and Mr. Jones were at 4.7% and 95.3% respectively. This suggests that most people view Mr. Jones (who never picks up hitchhikers) as more common in society, and therefore feel a greater sense of regret for what happened to him. In addition, another reason is that Mr. Jones encountered extremely low-probability events on rare occasions, which is even more unacceptable. As for Descriptive Social Norms, it is naturally the opposite of the first two. Mr. Smith’s proportion is extremely high, reaching 90.6%, while Mr. Jones’s is only 9.4%. In addition, as the chart shows, a strong sense of regret will bring about Negative Affect. Therefore, the proportion of Negative Affect in Mr. Jones' scene is very high, 92.7%. The proportion in Mr. Smith's scenario was lower, 7.3%. Based on the above results, it can be seen that most participants believe that Mr. Jones is more in line with social rules than Mr. Smith. However, because the two have also experienced small-probability negative events, participants will gain more in Mr. Jones’s scenario. Feelings of regret and experiencing negative emotions.
 
 ## fig2
 
@@ -131,9 +128,7 @@ ggplot(long_data, aes(x = Type, y = Percent, fill = Group)) +
 
 The figure named @fig-2 is a replication of Figure 2 in the original paper, and it shows the proportions for perceived regret and luck in two Groups, which are Mr. Adams with the circumstance of routine and Mr. White with the circumstance of the exception. According to the table 2, the proportion of perceived regret for the group of Mr. Adams with the circumstance of routine is 19%, which 19 percents of participants in the experiment feels that Mr. Adams was more upset over the accident for the second scenario. In contrast, the proportion of perceived regret for the group of Mr. White with the circumstance of the exception is 81%, which 81 percents of participants in the experiment feels that Mr. White was more upset over the accident for the second scenario. What's more, the proportion of perceived luck for the group of Mr. Adams with the circumstance of routine is 33.3%, which 33.3 percents of participants in the experiment supposes that Mr. Adams was less lucky. Instead, the proportion of perceived luck for the group of Mr. White with the circumstance of the exception is 66.7%, which 66.7 percents of participants in the experiment supposes that Mr. White was less lucky.
 
-
-
-## fig3
+## The Influence of Exceptionality on Compensation and Regret
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, fig.cap=" Victim compensation and regret with exception conditions combined", label= "fig-3"}
 
@@ -239,6 +234,11 @@ combined_plot <- exceptioncombinedcompensationplot / exceptioncombinedregretplot
 combined_plot
 ```
 
+Respondents were reading about whether Mr. Paul was injured because he happened to be robbed when he went to his everyday store or another store because of construction. Through the questionnaire, we observed the respondents on the compensation measure and the regret measure, and the two violin plots in @fig-3 show the distribution of the data. The distribution of compensation amount is roughly similar in regular and exceptional cases, and we can conclude that people do not define compensation separately for regular and special cases. However, we can observe that in the graph of the degree of regret, the degree of regret is more pronounced in the EXCEPTION situation. Regret is a complex emotional response; in general, regular events do not cause regret, but people are more likely to regret when they think that another decision might have led to a better outcome, which is in line with the results of our graph. Neal J. Roese and Amy Summerville have mentioned in their research that regret is related to perceived opportunities in life; that is, people perceive opportunities, the more opportunities people perceive, the more regretful they are[@roese2005we]. This is consistent with the situation in our study, in which Paul was robbed at a different store because of a store renovation, and respondents saw an opportunity not to be robbed, i.e., to go to the original store, and therefore had a generally higher level of regret. But when Paul is robbed when he goes to the original store, people don't see the chance not to be robbed, so the level of regret is smaller. So, our reproduced graph is consistent with the conclusions obtained from the original article.
+
+# Conclusion
+
+In summary, our study replicated Kutscher and Feldman's findings by examining the effects of past behaviour on regret, precisely scenarios related to hitchhiking, car accidents, and robberies. We found that individuals are more likely to experience regret when confronted with atypical events than with typical events. In hitchhiking and car accident scenarios, regret increases when people deviate from normal behavioural patterns. Also, we found that even the increase in regret does not affect the compensation domain. We can find from the violin plots that the need for compensation is very similar in both regular and special situations. Our analysis is consistent with the original research of Kutscher and Feldman and the findings of Neal J. Roese and Amy Summerville. It also emphasizes the complexity of regret as an emotion and that when people have more choices, they experience more regret when they believe they are missing out on other, more favourable outcomes because of the wrong choices[@roese2005we]. Future research could continue to explore the association between regret and other different emotions and whether levels of regret change over time, which could inform and help future psychology, compensation, and legal liability.
+
 
 # References
-
