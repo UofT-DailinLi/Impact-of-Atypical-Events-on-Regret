@@ -3,7 +3,7 @@ title: "Exploring the Impact of Atypical Events on Regret: Analysis Through Hitc
 subtitle: "Reproduction of 'The impact of past behaviour normality on regret: replication and extension of three experiments of the exceptionality effect' (Lucas Kutscher & Gilad Feldman, 2018)"
 author: Dailin(Ben) li, Qisheng Liang, Xutao Chen
 thanks: "Code and data are available at: https://github.com/UofT-DailinLi/Impact-of-Atypical-Events-on-Regret.git. A replication of various aspects in this paper are available at: https://doi.org/10.1080/02699931.2018.1504747"
-date: "`r format(Sys.time(), '%d %B %Y')`"
+date: today
 abstract: "This study aims to replicate Kutscher and Feldman’s findings, which examine regret based on the norm theory. According to norm theory, an individual’s activity can be categorized as either typical or atypical， with the latter, on the other hand, eliciting a stronger emotional response. We focused on replicating three specific scenarios: hitchhiking, car accidents, and robberies. Examining how people recalled their behaviour in these specific scenarios helped our perception of the emotion of regret. This replication is consistent with the original study."
 
 editor: visual
@@ -13,6 +13,7 @@ toc: true
 toc_depth: 2
 number-sections: true
 bibliography: references.bib
+
 ---
 
 \newpage
@@ -236,9 +237,19 @@ combined_plot
 
 Respondents were reading about whether Mr. Paul was injured because he happened to be robbed when he went to his everyday store or another store because of construction. Through the questionnaire, we observed the respondents on the compensation measure and the regret measure, and the two violin plots in @fig-3 show the distribution of the data. The distribution of compensation amount is roughly similar in regular and exceptional cases, and we can conclude that people do not define compensation separately for regular and special cases. However, we can observe that in the graph of the degree of regret, the degree of regret is more pronounced in the EXCEPTION situation. Regret is a complex emotional response; in general, regular events do not cause regret, but people are more likely to regret when they think that another decision might have led to a better outcome, which is in line with the results of our graph. Neal J. Roese and Amy Summerville have mentioned in their research that regret is related to perceived opportunities in life; that is, people perceive opportunities, the more opportunities people perceive, the more regretful they are[@roese2005we]. This is consistent with the situation in our study, in which Paul was robbed at a different store because of a store renovation, and respondents saw an opportunity not to be robbed, i.e., to go to the original store, and therefore had a generally higher level of regret. But when Paul is robbed when he goes to the original store, people don't see the chance not to be robbed, so the level of regret is smaller. So, our reproduced graph is consistent with the conclusions obtained from the original article.
 
+# Discussion
+
+## Bais
+Ethical implications and biases naturally arise when collecting quantitative and qualitative data. The data collected in this article were basically provided by the participants. Although efforts were made to screen the participants fairly and make them fully meet the required conditions, in the context of their simple one-to-one comparison, data bias is more likely to occur. For example, when testing for deviant effects, findings showed stronger regret for action than for inaction when using presentations involving the fate of two people, but this effect was very weak when using designs involving a single individual. This suggests that simple comparison scenarios may overestimate the size of the deviant effect.
+In addition, because the data used in the article are not original data, the selection of experimental participants may not be representative of a wider population, or the experimental situation may deviate from real-world situations, then these research results may not be widely generalizable to in a broader context, thus illustrating potential sampling bias issues.
+
+## Future
+The results obtained in this article can be useful in several fields in the future: firstly in psychology and behavioral economics, with the results regarding the link between the emotion of regret and decision-making behavior, especially when taking into account the regularity of the behavior and deviancy, research on how individuals process decision outcomes and how these processes influence future decisions can be considered at a psychological level. In addition, the findings provide a better understanding of how consumers make decisions based on past behavior and whether those behaviors are routine or unusual. The second is in terms of public policy and education, these findings can provide a better understanding of how people evaluate their own behavior and how these evaluations affect their emotions and behavioral intentions, which can help develop more targeted and effective interventions, and also More effective teaching strategies and learning tools can be developed. Finally, it can even be applied to artificial intelligence and machine learning, which has also been a hot topic in recent years. When designing intelligent systems, these research results can provide information about the process and results of how humans make decisions, and can help developers create algorithms that are more consistent with human behavior and emotional responses.
+
+
 # Conclusion
 
 In summary, our study replicated Kutscher and Feldman's findings by examining the effects of past behaviour on regret, precisely scenarios related to hitchhiking, car accidents, and robberies. We found that individuals are more likely to experience regret when confronted with atypical events than with typical events. In hitchhiking and car accident scenarios, regret increases when people deviate from normal behavioural patterns. Also, we found that even the increase in regret does not affect the compensation domain. We can find from the violin plots that the need for compensation is very similar in both regular and special situations. Our analysis is consistent with the original research of Kutscher and Feldman and the findings of Neal J. Roese and Amy Summerville. It also emphasizes the complexity of regret as an emotion and that when people have more choices, they experience more regret when they believe they are missing out on other, more favourable outcomes because of the wrong choices[@roese2005we]. Future research could continue to explore the association between regret and other different emotions and whether levels of regret change over time, which could inform and help future psychology, compensation, and legal liability.
 
-
+\newpage
 # References
