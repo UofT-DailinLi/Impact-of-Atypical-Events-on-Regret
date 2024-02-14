@@ -20,4 +20,4 @@ This study, "Exploring the Impact of Atypical Events on Regret: Analysis Through
 
 
 **Statement on LLM usage:
-Use ChatGPT to help understand the original code and replicate graphs. The chat history can be found in LLM usage file. 
+Statement on LLM usage: Aspects of the code were written with the help of the autocomplete tool, Codriver. The abstract and introduction were written with the help of ChatHorse and the entire chat history is available in inputs/llms/LLM_usage.txt
