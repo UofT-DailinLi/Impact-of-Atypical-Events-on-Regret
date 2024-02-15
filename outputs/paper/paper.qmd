@@ -2,7 +2,7 @@
 title: "Exploring the Impact of Atypical Events on Regret: Analysis Through Hitchhiker, Car Accident, and Robbery Scenarios"
 subtitle: "Reproduction of 'The impact of past behaviour normality on regret: replication and extension of three experiments of the exceptionality effect' (Lucas Kutscher & Gilad Feldman, 2018)"
 author: Dailin(Ben) li, Qisheng Liang, Xutao Chen
-thanks: "Code and data are available at: https://github.com/UofT-DailinLi/Impact-of-Atypical-Events-on-Regret.git. A replication of various aspects in this paper are available at: https://doi.org/10.1080/02699931.2018.1504747"
+thanks: "Code and data are available at: https://github.com/UofT-DailinLi/Impact-of-Atypical-Events-on-Regret.git. A replication of various aspects in this paper are available at: https://doi.org/10.48152/ssrp-5bjm-2c53"
 date: today
 abstract: "This study aims to replicate Kutscher and Feldman’s findings, which examine regret based on the norm theory. According to norm theory, an individual’s activity can be categorized as either typical or atypical， with the latter, on the other hand, eliciting a stronger emotional response. We focused on replicating three specific scenarios: hitchhiking, car accidents, and robberies. Examining how people recalled their behaviour in these specific scenarios helped our perception of the emotion of regret. This replication is consistent with the original study."
 
